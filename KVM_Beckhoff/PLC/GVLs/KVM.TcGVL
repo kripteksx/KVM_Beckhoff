@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="KVM" Id="{990672a5-8705-40a9-80e0-fd7c5123945f}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	gstKVM: ST_KVM;
+END_VAR
+VAR_GLOBAL CONSTANT
+	uiNumOfDouble: INT := 7;
+	uiNumOfWord: INT := 7;
+	uiNumOfBool: INT := 31;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

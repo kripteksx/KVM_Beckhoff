@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="ST_KVM_Status" Id="{6c5c6f37-21c7-49f1-99a2-61d4c9744a4e}">
+    <Declaration><![CDATA[TYPE ST_KVM_Status :
+STRUCT
+	boLive: BOOL;
+	boAppLive: BOOL;
+	boWebLive: BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

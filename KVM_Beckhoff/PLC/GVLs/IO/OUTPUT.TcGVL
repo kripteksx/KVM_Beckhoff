@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="OUTPUT" Id="{f31f748c-972d-47c9-94c9-ad0782b3aebf}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	qboSTO				: BOOL; // Safe torque off
+	qboStartLam			: BOOL; // Lamp of start button
+	qboStopLam			: BOOL; // Lamp of stop button
+	qboAlarmLam			: BOOL; // Lamp of alarm 
+	qboSystemLam		: BOOL; // Lamp of safety
+	qboAutoLam			: BOOL; // Lamp of auto button
+	qboManFwdLam		: BOOL; // Lamp of forward button
+	qboManBwdLam		: BOOL; // Lamp of backward button
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

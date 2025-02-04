@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="ST_KVM_CA" Id="{39a555d6-9033-4d2c-b90a-70f6a5ef3513}">
+    <Declaration><![CDATA[TYPE ST_KVM_CA :
+STRUCT
+	boCA			: ARRAY[0..KVM.uiNumOfBool] OF BOOL;
+	sboCAComments	: ARRAY[0..KVM.uiNumOfBool] OF STRING(20);
+	wCA				: ARRAY[0..KVM.uiNumOfWord] OF WORD;
+	swCAComments	: ARRAY[0..KVM.uiNumOfWord] OF STRING(20);
+	lrCA			: ARRAY[0..KVM.uiNumOfDouble] OF LREAL;
+	slrCAComments	: ARRAY[0..KVM.uiNumOfDouble] OF STRING(20);
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

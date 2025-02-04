@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="INPUT" Id="{77734734-ce08-4f62-9d38-b4fb9c34b789}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	iboEmergencyStopBut	: BOOL; // Emergency button of machine
+	iboStartBut			: BOOL; // Start button of machine
+	iboStopBut			: BOOL; // Stop button of machine
+	iboAlarmResetBut	: BOOL; // Alarm reset button
+	iboSystemResetBut	: BOOL; // System reset button for safety 
+	iboAutoBut			: BOOL; // Auto / Manuel selection button
+	iboManFwdBut		: BOOL; // Manuel forward button for selected axis
+	iboManBwdBut		: BOOL; // Manuel backward button for selected axis
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

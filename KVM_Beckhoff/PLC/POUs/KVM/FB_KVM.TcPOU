@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_KVM" Id="{8b6dbdab-54ad-4655-bd64-d07505511630}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_KVM
+VAR_INPUT
+	wAID: WORD;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	fbTonLive: TON;
+	ftriboSystemResetBut: F_TRIG;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF fbTonLive.Q THEN	KVM.gstKVM.stStatus.boLive:=NOT KVM.gstKVM.stStatus.boLive; END_IF
+fbTonLive(IN:=NOT fbTonLive.Q , PT:=T#500MS , Q=> , ET=> );
+
+// AID - Application ID
+KVM.gstKVM.stApp.wAID:=wAID;
+
+// selection of application
+IF 		wAID=1 THEN	App1();
+ELSIF 	wAID=2 THEN	App2(); END_IF
+
+Safety();
+General();]]></ST>
+    </Implementation>
+    <Action Name="App1" Id="{7424dcda-d0f7-4aa2-bed9-d9611ccf6c52}">
+      <Implementation>
+        <ST><![CDATA[;]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="App2" Id="{07759514-4541-4148-8fc8-41dbe14d4891}">
+      <Implementation>
+        <ST><![CDATA[;]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="General" Id="{41bab375-2a83-40cb-b0b0-259fb3913f5a}">
+      <Implementation>
+        <ST><![CDATA[
+KVM.gstKVM.stCA.lrCA[0]:=Axis.stAxis1.NcToPlc.ActPos;
+
+INPUT.iboEmergencyStopBut:=KVM.gstKVM.stAC.boAC[0];
+INPUT.iboStartBut:=KVM.gstKVM.stAC.boAC[1];
+INPUT.iboStopBut:=KVM.gstKVM.stAC.boAC[2];
+INPUT.iboAlarmResetBut:=KVM.gstKVM.stAC.boAC[3];
+INPUT.iboSystemResetBut:=KVM.gstKVM.stAC.boAC[4];
+INPUT.iboAutoBut:=KVM.gstKVM.stAC.boAC[5];
+INPUT.iboManFwdBut:=KVM.gstKVM.stAC.boAC[6];
+INPUT.iboManBwdBut:=KVM.gstKVM.stAC.boAC[7];
+
+KVM.gstKVM.stCA.boCA[0]:=OUTPUT.qboSTO;
+KVM.gstKVM.stCA.boCA[1]:=OUTPUT.qboStartLam;
+KVM.gstKVM.stCA.boCA[2]:=OUTPUT.qboStopLam;
+KVM.gstKVM.stCA.boCA[3]:=OUTPUT.qboAlarmLam;
+KVM.gstKVM.stCA.boCA[4]:=OUTPUT.qboSystemLam;
+KVM.gstKVM.stCA.boCA[5]:=OUTPUT.qboAutoLam;
+KVM.gstKVM.stCA.boCA[6]:=OUTPUT.qboManFwdLam;
+KVM.gstKVM.stCA.boCA[7]:=OUTPUT.qboManBwdLam;
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="Safety" Id="{f0e97837-7355-444c-b566-26605a6402c4}">
+      <Implementation>
+        <ST><![CDATA[ftriboSystemResetBut(CLK:=INPUT.iboSystemResetBut, Q=>);
+IF INPUT.iboEmergencyStopBut AND ftriboSystemResetBut.Q THEN
+	OUTPUT.qboSTO:=TRUE;
+END_IF
+
+IF NOT INPUT.iboEmergencyStopBut THEN
+	OUTPUT.qboSTO:=FALSE;
+END_IF
+
+OUTPUT.qboSystemLam:=OUTPUT.qboSTO;]]></ST>
+      </Implementation>
+    </Action>
+    <LineIds Name="FB_KVM">
+      <LineId Id="10" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_KVM.App1">
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_KVM.App2">
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_KVM.General">
+      <LineId Id="2" Count="1" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="12" Count="3" />
+      <LineId Id="1" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="18" Count="6" />
+      <LineId Id="26" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_KVM.Safety">
+      <LineId Id="8" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="9" Count="1" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="1" Count="2" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="4" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

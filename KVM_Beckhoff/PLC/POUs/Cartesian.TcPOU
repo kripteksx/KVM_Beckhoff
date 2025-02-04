@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Cartesian" Id="{77e9f384-08a5-40ac-975f-fb1a6701c2a0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Cartesian
+VAR_INPUT
+	boEnable: BOOL;
+END_VAR
+VAR_OUTPUT
+	boStartAck: BOOL;
+	boEnabAck: BOOL;
+END_VAR
+VAR
+	rtrboStart: R_TRIG;
+	iState: INT;
+	fbMoveAbsolute: MC_MoveAbsolute;
+	fbMcPower: MC_Power;
+	fbTonGec: TON;
+	ftrboEnable: F_TRIG;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+rtrboStart(CLK:=INPUT.iboStartBut, Q=>);
+IF rtrboStart.Q THEN
+	boStartAck:=NOT boStartAck;
+END_IF
+
+CASE iState OF
+0:
+	IF boEnable THEN
+		iState:=10;
+	END_IF
+	
+10:
+	boEnabAck:=TRUE;
+	iState:=100;
+	
+100:
+	IF AXIS.stAxis1.Status.StandStill AND boStartAck THEN
+		iState:=1000;
+	END_IF
+	
+1000:
+	fbMoveAbsolute.Position:=700;
+	fbMoveAbsolute.Execute:=TRUE;
+	IF fbMoveAbsolute.Done THEN
+		fbMoveAbsolute.Execute:=FALSE;
+		iState:=1010;
+	END_IF
+	
+1010:
+	fbTonGec.IN:=TRUE;
+	IF fbTonGec.Q THEN
+		fbTonGec.IN:=FALSE;
+		iState:=1020;
+	END_IF
+	
+1020:
+	fbMoveAbsolute.Position:=0;
+	fbMoveAbsolute.Execute:=TRUE;
+	IF fbMoveAbsolute.Done THEN
+		fbMoveAbsolute.Execute:=FALSE;
+		iState:=1030;
+	END_IF
+	
+1030:
+	fbTonGec.IN:=TRUE;
+	IF fbTonGec.Q THEN
+		fbTonGec.IN:=FALSE;
+		iState:=100;
+	END_IF
+	
+END_CASE
+ftrboEnable(CLK:=boEnable, Q=>);
+IF ftrboEnable.Q THEN
+	iState:=0;
+	boEnabAck:=FALSE;
+	boStartAck:=FALSE;
+	fbTonGec.IN:=FALSE;
+	fbMoveAbsolute.Execute:=FALSE;
+END_IF
+
+
+
+Axis.stAxis1.ReadStatus();
+
+fbTonGec(IN:= , PT:=T#1S , Q=> , ET=> );
+
+fbMcPower(
+	Axis:=Axis.stAxis1 , 
+	Enable:=TRUE , 
+	Enable_Positive:=TRUE , 
+	Enable_Negative:=TRUE , 
+	Override:= , 
+	BufferMode:= , 
+	Options:= , 
+	Status=> , 
+	Busy=> , 
+	Active=> , 
+	Error=> , 
+	ErrorID=> );
+	
+fbMoveAbsolute(
+	Axis:=Axis.stAxis1 , 
+	Execute:= , 
+	Position:= , 
+	Velocity:=1500 , 
+	Acceleration:=10000 , 
+	Deceleration:=10000 , 
+	Jerk:=100000 , 
+	BufferMode:= , 
+	Options:= , 
+	Done=> , 
+	Busy=> , 
+	Active=> , 
+	CommandAborted=> , 
+	Error=> , 
+	ErrorID=> );	
+	]]></ST>
+    </Implementation>
+    <LineIds Name="Cartesian">
+      <LineId Id="17" Count="7" />
+      <LineId Id="108" Count="5" />
+      <LineId Id="117" Count="0" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="116" Count="0" />
+      <LineId Id="25" Count="34" />
+      <LineId Id="121" Count="0" />
+      <LineId Id="123" Count="0" />
+      <LineId Id="126" Count="1" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="128" Count="1" />
+      <LineId Id="125" Count="0" />
+      <LineId Id="119" Count="1" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="60" Count="33" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

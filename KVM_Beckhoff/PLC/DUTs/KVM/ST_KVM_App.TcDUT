@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="ST_KVM_App" Id="{f25fadf0-4c2b-4c46-9b14-13c48085c92d}">
+    <Declaration><![CDATA[TYPE ST_KVM_App :
+STRUCT
+	wSID: WORD:=1;	
+	wAID: WORD:=1;	
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

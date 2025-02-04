@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MAIN" Id="{17fb778a-02bd-4788-a0ad-2e1686ce558b}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	fbKVM: FB_KVM;
+	fbCartesian: Cartesian;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbKVM(wAID:=1 );
+
+fbCartesian(
+	boEnable:=INPUT.iboEmergencyStopBut , 
+	boStartAck=> , 	
+	boEnabAck=> );]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="2" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="14" Count="2" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
