@@ -4,11 +4,12 @@
     <Declaration><![CDATA[TYPE ST_KVM_AC :
 STRUCT
 	boAC			: ARRAY[0..KVM.uiNumOfBool] OF BOOL;
-	sboACComments	: ARRAY[0..KVM.uiNumOfBool] OF STRING(20);
 	wAC				: ARRAY[0..KVM.uiNumOfWord] OF WORD;
-	swACComments	: ARRAY[0..KVM.uiNumOfWord] OF STRING(20);
 	lrAC			: ARRAY[0..KVM.uiNumOfDouble] OF LREAL;
-	slrACComments	: ARRAY[0..KVM.uiNumOfDouble] OF STRING(20);
+	
+	sboACComments	: ARRAY[0..KVM.uiNumOfBool] OF STRING(30);
+	swACComments	: ARRAY[0..KVM.uiNumOfWord] OF STRING(30);
+	slrACComments	: ARRAY[0..KVM.uiNumOfDouble] OF STRING(30);
 END_STRUCT
 END_TYPE
 ]]></Declaration>

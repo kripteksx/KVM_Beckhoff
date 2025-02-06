@@ -28,7 +28,13 @@ General();]]></ST>
     </Implementation>
     <Action Name="App1" Id="{7424dcda-d0f7-4aa2-bed9-d9611ccf6c52}">
       <Implementation>
-        <ST><![CDATA[;]]></ST>
+        <ST><![CDATA[KVM.gstKVM.stApp.sName:='Cartesian Application';
+KVM.gstKVM.stApp.sInfo:='Pick $R$Nand place';
+
+
+KVM.gstKVM.stCA.lrCA[0]:=Axis.stAxis1.NcToPlc.ActPos;
+KVM.gstKVM.stCA.lrCA[1]:=Axis.stAxis2.NcToPlc.ActPos;
+KVM.gstKVM.stCA.lrCA[2]:=Axis.stAxis3.NcToPlc.ActPos;]]></ST>
       </Implementation>
     </Action>
     <Action Name="App2" Id="{07759514-4541-4148-8fc8-41dbe14d4891}">
@@ -39,7 +45,8 @@ General();]]></ST>
     <Action Name="General" Id="{41bab375-2a83-40cb-b0b0-259fb3913f5a}">
       <Implementation>
         <ST><![CDATA[
-KVM.gstKVM.stCA.lrCA[0]:=Axis.stAxis1.NcToPlc.ActPos;
+
+KVM.gstKVM.stStatus.lrElapsedTimeSec:=KVM.gstKVM.stStatus.lrElapsedTimeSec+KVM.lrCycleSec;
 
 INPUT.iboEmergencyStopBut:=KVM.gstKVM.stAC.boAC[0];
 INPUT.iboStartBut:=KVM.gstKVM.stAC.boAC[1];
@@ -50,6 +57,15 @@ INPUT.iboAutoBut:=KVM.gstKVM.stAC.boAC[5];
 INPUT.iboManFwdBut:=KVM.gstKVM.stAC.boAC[6];
 INPUT.iboManBwdBut:=KVM.gstKVM.stAC.boAC[7];
 
+KVM.gstKVM.stAC.sboACComments[0]:='Emergency button';
+KVM.gstKVM.stAC.sboACComments[1]:='Start button';
+KVM.gstKVM.stAC.sboACComments[2]:='Stop button';
+KVM.gstKVM.stAC.sboACComments[3]:='Alarm reset button';
+KVM.gstKVM.stAC.sboACComments[4]:='System reset button';
+KVM.gstKVM.stAC.sboACComments[5]:='Auto / man button';
+KVM.gstKVM.stAC.sboACComments[6]:='Man forward button';
+KVM.gstKVM.stAC.sboACComments[7]:='Man backward button';
+
 KVM.gstKVM.stCA.boCA[0]:=OUTPUT.qboSTO;
 KVM.gstKVM.stCA.boCA[1]:=OUTPUT.qboStartLam;
 KVM.gstKVM.stCA.boCA[2]:=OUTPUT.qboStopLam;
@@ -58,6 +74,15 @@ KVM.gstKVM.stCA.boCA[4]:=OUTPUT.qboSystemLam;
 KVM.gstKVM.stCA.boCA[5]:=OUTPUT.qboAutoLam;
 KVM.gstKVM.stCA.boCA[6]:=OUTPUT.qboManFwdLam;
 KVM.gstKVM.stCA.boCA[7]:=OUTPUT.qboManBwdLam;
+
+KVM.gstKVM.stCA.sboCAComments[0]:='Safe torque off';
+KVM.gstKVM.stCA.sboCAComments[1]:='Lamp of start button';
+KVM.gstKVM.stCA.sboCAComments[2]:='Lamp of stop button';
+KVM.gstKVM.stCA.sboCAComments[3]:='Lamp of alarm';
+KVM.gstKVM.stCA.sboCAComments[4]:='Lamp of safety';
+KVM.gstKVM.stCA.sboCAComments[5]:='Lamp of auto button';
+KVM.gstKVM.stCA.sboCAComments[6]:='Lamp of forward button';
+KVM.gstKVM.stCA.sboCAComments[7]:='Lamp of backward button';
 ]]></ST>
       </Implementation>
     </Action>
@@ -90,22 +115,33 @@ OUTPUT.qboSystemLam:=OUTPUT.qboSTO;]]></ST>
       <LineId Id="23" Count="0" />
     </LineIds>
     <LineIds Name="FB_KVM.App1">
-      <LineId Id="1" Count="0" />
+      <LineId Id="1" Count="1" />
+      <LineId Id="4" Count="1" />
+      <LineId Id="3" Count="0" />
+      <LineId Id="6" Count="1" />
     </LineIds>
     <LineIds Name="FB_KVM.App2">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="FB_KVM.General">
-      <LineId Id="2" Count="1" />
+      <LineId Id="3" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="45" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="4" Count="0" />
       <LineId Id="10" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="12" Count="3" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="37" Count="6" />
       <LineId Id="1" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="18" Count="6" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="29" Count="6" />
       <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_KVM.Safety">

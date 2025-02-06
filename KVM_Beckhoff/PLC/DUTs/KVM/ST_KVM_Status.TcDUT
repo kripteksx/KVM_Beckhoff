@@ -6,6 +6,7 @@ STRUCT
 	boLive: BOOL;
 	boAppLive: BOOL;
 	boWebLive: BOOL;
+	lrElapsedTimeSec: LREAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

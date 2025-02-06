@@ -3,8 +3,11 @@
   <DUT Name="ST_KVM_App" Id="{f25fadf0-4c2b-4c46-9b14-13c48085c92d}">
     <Declaration><![CDATA[TYPE ST_KVM_App :
 STRUCT
-	wSID: WORD:=1;	
-	wAID: WORD:=1;	
+	wSID	: WORD:=1;	
+	wAID	: WORD:=1;	
+	sCID	: STRING(8):='12345678';
+	sName	: STRING(63);	
+	sInfo	: STRING(255);
 END_STRUCT
 END_TYPE
 ]]></Declaration>

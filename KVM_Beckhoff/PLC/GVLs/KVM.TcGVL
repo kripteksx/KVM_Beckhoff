@@ -6,9 +6,10 @@ VAR_GLOBAL
 	gstKVM: ST_KVM;
 END_VAR
 VAR_GLOBAL CONSTANT
-	uiNumOfDouble: INT := 7;
-	uiNumOfWord: INT := 7;
-	uiNumOfBool: INT := 31;
+	uiNumOfDouble	: INT := 7;
+	uiNumOfWord		: INT := 7;
+	uiNumOfBool		: INT := 31;
+	lrCycleSec		: LREAL := 0.002;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
