@@ -9,6 +9,10 @@ VAR_GLOBAL
 	iboAlarmResetBut	: BOOL; // Alarm reset button
 	iboSystemResetBut	: BOOL; // System reset button for safety 
 	iboAutoBut			: BOOL; // Auto / Manuel selection button
+	iboPauseBut			: BOOL; // Pause machine for step by step 
+	iboStepBut			: BOOL; // Step by step button
+	
+	
 	iboManFwdBut		: BOOL; // Manuel forward button for selected axis
 	iboManBwdBut		: BOOL; // Manuel backward button for selected axis
 END_VAR]]></Declaration>

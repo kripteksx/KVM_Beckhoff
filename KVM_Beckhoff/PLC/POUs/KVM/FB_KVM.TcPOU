@@ -54,8 +54,11 @@ INPUT.iboStopBut:=KVM.gstKVM.stAC.boAC[2];
 INPUT.iboAlarmResetBut:=KVM.gstKVM.stAC.boAC[3];
 INPUT.iboSystemResetBut:=KVM.gstKVM.stAC.boAC[4];
 INPUT.iboAutoBut:=KVM.gstKVM.stAC.boAC[5];
-INPUT.iboManFwdBut:=KVM.gstKVM.stAC.boAC[6];
-INPUT.iboManBwdBut:=KVM.gstKVM.stAC.boAC[7];
+INPUT.iboPauseBut:=KVM.gstKVM.stAC.boAC[6];
+INPUT.iboStepBut:=KVM.gstKVM.stAC.boAC[7];
+
+INPUT.iboManFwdBut:=KVM.gstKVM.stAC.boAC[8];
+INPUT.iboManBwdBut:=KVM.gstKVM.stAC.boAC[9];
 
 KVM.gstKVM.stAC.sboACComments[0]:='Emergency button';
 KVM.gstKVM.stAC.sboACComments[1]:='Start button';
@@ -72,8 +75,11 @@ KVM.gstKVM.stCA.boCA[2]:=OUTPUT.qboStopLam;
 KVM.gstKVM.stCA.boCA[3]:=OUTPUT.qboAlarmLam;
 KVM.gstKVM.stCA.boCA[4]:=OUTPUT.qboSystemLam;
 KVM.gstKVM.stCA.boCA[5]:=OUTPUT.qboAutoLam;
-KVM.gstKVM.stCA.boCA[6]:=OUTPUT.qboManFwdLam;
-KVM.gstKVM.stCA.boCA[7]:=OUTPUT.qboManBwdLam;
+KVM.gstKVM.stCA.boCA[6]:=OUTPUT.qboPauseLam;
+KVM.gstKVM.stCA.boCA[7]:=OUTPUT.qboStepLam;
+
+KVM.gstKVM.stCA.boCA[8]:=OUTPUT.qboManFwdLam;
+KVM.gstKVM.stCA.boCA[9]:=OUTPUT.qboManBwdLam;
 
 KVM.gstKVM.stCA.sboCAComments[0]:='Safe torque off';
 KVM.gstKVM.stCA.sboCAComments[1]:='Lamp of start button';
@@ -97,7 +103,7 @@ IF NOT INPUT.iboEmergencyStopBut THEN
 	OUTPUT.qboSTO:=FALSE;
 END_IF
 
-OUTPUT.qboSystemLam:=OUTPUT.qboSTO;]]></ST>
+OUTPUT.qboSystemLam:=OUTPUT.qboSTO OR KVM.gstKVM.stStatus.boLive;]]></ST>
       </Implementation>
     </Action>
     <LineIds Name="FB_KVM">
@@ -132,6 +138,9 @@ OUTPUT.qboSystemLam:=OUTPUT.qboSTO;]]></ST>
       <LineId Id="10" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="12" Count="3" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="51" Count="0" />
       <LineId Id="36" Count="0" />
       <LineId Id="44" Count="0" />
       <LineId Id="37" Count="6" />
@@ -139,6 +148,8 @@ OUTPUT.qboSystemLam:=OUTPUT.qboSTO;]]></ST>
       <LineId Id="17" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="18" Count="6" />
+      <LineId Id="48" Count="1" />
+      <LineId Id="47" Count="0" />
       <LineId Id="28" Count="0" />
       <LineId Id="27" Count="0" />
       <LineId Id="29" Count="6" />

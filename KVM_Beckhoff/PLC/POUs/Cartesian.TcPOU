@@ -16,14 +16,30 @@ VAR
 	fbMcPower: MC_Power;
 	fbTonGec: TON;
 	ftrboEnable: F_TRIG;
+	ftrboStart: F_TRIG;
+	boOtomatikAktif: BOOL;
+	rtrboPause: R_TRIG;
+	boPauseAck: BOOL;
+	rtrboStep: R_TRIG;
+	fbReset: MC_Reset;
+	fbJog: MC_Jog;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
 rtrboStart(CLK:=INPUT.iboStartBut, Q=>);
-IF rtrboStart.Q THEN
-	boStartAck:=NOT boStartAck;
+ftrboStart(CLK:=INPUT.iboStopBut, Q=>);
+IF ftrboStart.Q THEN boStartAck:=FALSE; END_IF
+OUTPUT.qboStartLam:=boStartAck OR (boOtomatikAktif AND KVM.gstKVM.stStatus.boLive);
+
+rtrboPause(CLK:=INPUT.iboPauseBut, Q=>);
+rtrboStep(CLK:=INPUT.iboStepBut, Q=>);
+IF rtrboPause.Q THEN
+	boPauseAck:=NOT boPauseAck;
 END_IF
+OUTPUT.qboPauseLam:=boPauseAck AND NOT KVM.gstKVM.stStatus.boLive;
+OUTPUT.qboStepLam:=boPauseAck AND KVM.gstKVM.stStatus.boLive;
+OUTPUT.qboAlarmLam:=AXIS.stAxis1.Status.Error AND NOT KVM.gstKVM.stStatus.boLive;
 
 CASE iState OF
 0:
@@ -36,38 +52,58 @@ CASE iState OF
 	iState:=100;
 	
 100:
-	IF AXIS.stAxis1.Status.StandStill AND boStartAck THEN
+	IF rtrboStart.Q THEN
+		boStartAck:=TRUE;
+		boOtomatikAktif:=TRUE;
 		iState:=1000;
 	END_IF
 	
 1000:
-	fbMoveAbsolute.Position:=700;
-	fbMoveAbsolute.Execute:=TRUE;
-	IF fbMoveAbsolute.Done THEN
-		fbMoveAbsolute.Execute:=FALSE;
+	IF boStartAck AND AXIS.stAxis1.Status.StandStill THEN
 		iState:=1010;
+	ELSE
+		boOtomatikAktif:=FALSE;
+		iState:=100;
 	END_IF
 	
 1010:
-	fbTonGec.IN:=TRUE;
-	IF fbTonGec.Q THEN
-		fbTonGec.IN:=FALSE;
+	IF NOT boPauseAck OR rtrboStep.Q THEN
+		fbMoveAbsolute.Position:=690;
+		fbMoveAbsolute.Execute:=TRUE;
+		iState:=1011;
+	END_IF
+	
+1011:
+	IF fbMoveAbsolute.Done THEN
+		fbMoveAbsolute.Execute:=FALSE;
 		iState:=1020;
 	END_IF
 	
 1020:
-	fbMoveAbsolute.Position:=0;
-	fbMoveAbsolute.Execute:=TRUE;
-	IF fbMoveAbsolute.Done THEN
-		fbMoveAbsolute.Execute:=FALSE;
+	fbTonGec.IN:=TRUE;
+	IF fbTonGec.Q THEN
+		fbTonGec.IN:=FALSE;
 		iState:=1030;
 	END_IF
 	
 1030:
+	IF NOT boPauseAck OR rtrboStep.Q THEN
+		fbMoveAbsolute.Position:=65;
+		fbMoveAbsolute.Execute:=TRUE;
+		iState:=1031;
+	END_IF
+	
+1031:
+	IF fbMoveAbsolute.Done THEN
+		fbMoveAbsolute.Execute:=FALSE;
+		iState:=1040;
+	END_IF
+	
+1040:
 	fbTonGec.IN:=TRUE;
 	IF fbTonGec.Q THEN
 		fbTonGec.IN:=FALSE;
-		iState:=100;
+		iState:=1000;
 	END_IF
 	
 END_CASE
@@ -76,6 +112,7 @@ IF ftrboEnable.Q THEN
 	iState:=0;
 	boEnabAck:=FALSE;
 	boStartAck:=FALSE;
+	boOtomatikAktif:=FALSE;
 	fbTonGec.IN:=FALSE;
 	fbMoveAbsolute.Execute:=FALSE;
 END_IF
@@ -88,9 +125,9 @@ fbTonGec(IN:= , PT:=T#1S , Q=> , ET=> );
 
 fbMcPower(
 	Axis:=Axis.stAxis1 , 
-	Enable:=TRUE , 
-	Enable_Positive:=TRUE , 
-	Enable_Negative:=TRUE , 
+	Enable:=boEnable , 
+	Enable_Positive:=boEnable , 
+	Enable_Negative:=boEnable , 
 	Override:= , 
 	BufferMode:= , 
 	Options:= , 
@@ -100,11 +137,18 @@ fbMcPower(
 	Error=> , 
 	ErrorID=> );
 	
+IF INPUT.iboAutoBut THEN
+	fbMoveAbsolute.Velocity:=1500;
+ELSE
+	fbMoveAbsolute.Velocity:=150;
+END_IF
+OUTPUT.qboAutoLam:=(INPUT.iboAutoBut AND KVM.gstKVM.stStatus.boLive) OR boOtomatikAktif;
+	
 fbMoveAbsolute(
 	Axis:=Axis.stAxis1 , 
 	Execute:= , 
 	Position:= , 
-	Velocity:=1500 , 
+	Velocity:= , 
 	Acceleration:=10000 , 
 	Deceleration:=10000 , 
 	Jerk:=100000 , 
@@ -115,25 +159,99 @@ fbMoveAbsolute(
 	Active=> , 
 	CommandAborted=> , 
 	Error=> , 
-	ErrorID=> );	
-	]]></ST>
+	ErrorID=> );
+	
+fbReset(
+	Axis:=Axis.stAxis1 , 
+	Execute:=INPUT.iboAlarmResetBut , 
+	Done=> , 
+	Busy=> , 
+	Error=> , 
+	ErrorID=> );
+	
+OUTPUT.qboManFwdLam:=fbJog.JogForward;	
+OUTPUT.qboManBwdLam:=fbJog.JogBackwards;	
+fbJog(
+	Axis:=Axis.stAxis1 , 
+	JogForward:=INPUT.iboManFwdBut AND NOT boOtomatikAktif AND NOT INPUT.iboAutoBut , 
+	JogBackwards:=INPUT.iboManBwdBut AND NOT boOtomatikAktif AND NOT INPUT.iboAutoBut , 
+	Mode:= , 
+	Position:= , 
+	Velocity:=150 , 
+	Acceleration:=10000 , 
+	Deceleration:=10000 , 
+	Jerk:=100000 , 
+	Done=> , 
+	Busy=> , 
+	Active=> , 
+	CommandAborted=> , 
+	Error=> , 
+	ErrorID=> );]]></ST>
     </Implementation>
     <LineIds Name="Cartesian">
-      <LineId Id="17" Count="7" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="165" Count="0" />
+      <LineId Id="167" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="174" Count="0" />
+      <LineId Id="173" Count="0" />
+      <LineId Id="184" Count="0" />
+      <LineId Id="176" Count="2" />
+      <LineId Id="180" Count="0" />
+      <LineId Id="182" Count="0" />
+      <LineId Id="181" Count="0" />
+      <LineId Id="204" Count="0" />
+      <LineId Id="23" Count="1" />
       <LineId Id="108" Count="5" />
       <LineId Id="117" Count="0" />
       <LineId Id="114" Count="0" />
-      <LineId Id="116" Count="0" />
-      <LineId Id="25" Count="34" />
+      <LineId Id="148" Count="2" />
+      <LineId Id="168" Count="0" />
+      <LineId Id="151" Count="0" />
+      <LineId Id="27" Count="2" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="156" Count="0" />
+      <LineId Id="154" Count="0" />
+      <LineId Id="171" Count="0" />
+      <LineId Id="155" Count="0" />
+      <LineId Id="153" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="157" Count="0" />
+      <LineId Id="190" Count="1" />
+      <LineId Id="183" Count="0" />
+      <LineId Id="186" Count="2" />
+      <LineId Id="159" Count="3" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="163" Count="1" />
+      <LineId Id="38" Count="6" />
+      <LineId Id="192" Count="0" />
+      <LineId Id="45" Count="1" />
+      <LineId Id="196" Count="0" />
+      <LineId Id="193" Count="2" />
+      <LineId Id="47" Count="12" />
       <LineId Id="121" Count="0" />
       <LineId Id="123" Count="0" />
       <LineId Id="126" Count="1" />
       <LineId Id="130" Count="0" />
+      <LineId Id="172" Count="0" />
       <LineId Id="128" Count="1" />
       <LineId Id="125" Count="0" />
       <LineId Id="119" Count="1" />
       <LineId Id="118" Count="0" />
-      <LineId Id="60" Count="33" />
+      <LineId Id="60" Count="16" />
+      <LineId Id="197" Count="1" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="199" Count="0" />
+      <LineId Id="202" Count="0" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="203" Count="0" />
+      <LineId Id="77" Count="16" />
+      <LineId Id="214" Count="0" />
+      <LineId Id="208" Count="5" />
+      <LineId Id="205" Count="1" />
+      <LineId Id="231" Count="1" />
+      <LineId Id="216" Count="14" />
       <LineId Id="9" Count="0" />
     </LineIds>
   </POU>

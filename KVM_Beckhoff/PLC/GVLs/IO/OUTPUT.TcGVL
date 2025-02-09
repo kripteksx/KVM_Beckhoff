@@ -9,6 +9,10 @@ VAR_GLOBAL
 	qboAlarmLam			: BOOL; // Lamp of alarm 
 	qboSystemLam		: BOOL; // Lamp of safety
 	qboAutoLam			: BOOL; // Lamp of auto button
+	qboPauseLam			: BOOL; // Lamp of pause button
+	qboStepLam			: BOOL; // Lamp of step button
+	
+	
 	qboManFwdLam		: BOOL; // Lamp of forward button
 	qboManBwdLam		: BOOL; // Lamp of backward button
 END_VAR]]></Declaration>
