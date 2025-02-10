@@ -1455,6 +1455,10 @@ External Setpoint Generation:
 						<OtherSettings AllowMotionCmdToSlave="true"/>
 					</AxisPara>
 					<Encoder Name="Enc" EncType="1">
+						<EncPara>
+							<SoftEndMinControl Enable="true"/>
+							<SoftEndMaxControl Enable="true" Range="700"/>
+						</EncPara>
 						<Vars VarGrpType="1">
 							<Name>Inputs</Name>
 							<Var>
@@ -1915,7 +1919,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{1401A6D1-72A5-44A5-ABBA-07BB5B6C1E62}" Name="PLC" PrjFilePath="PLC\PLC.plcproj" TmcFilePath="PLC\PLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="PLC\PLC.tmc" TmcHash="{FF203EC2-CAFD-D802-67C9-7CF5C7BC3C88}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="PLC\PLC.tmc" TmcHash="{2A99E234-DECF-FFE3-F5AC-5D41D3821006}">
 					<Name>PLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">

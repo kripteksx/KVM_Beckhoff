@@ -11,7 +11,7 @@ END_VAR
       <ST><![CDATA[fbKVM(wAID:=1 );
 
 fbCartesian(
-	boEnable:=OUTPUT.qboSTO , 
+	boEnable:=OUTPUT.qboOUT0_STO , 
 	boStartAck=> , 	
 	boEnabAck=> );]]></ST>
     </Implementation>

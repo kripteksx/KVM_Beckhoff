@@ -45,65 +45,81 @@ KVM.gstKVM.stCA.lrCA[2]:=Axis.stAxis3.NcToPlc.ActPos;]]></ST>
     <Action Name="General" Id="{41bab375-2a83-40cb-b0b0-259fb3913f5a}">
       <Implementation>
         <ST><![CDATA[
-
+// status
 KVM.gstKVM.stStatus.lrElapsedTimeSec:=KVM.gstKVM.stStatus.lrElapsedTimeSec+KVM.lrCycleSec;
 
-INPUT.iboEmergencyStopBut:=KVM.gstKVM.stAC.boAC[0];
-INPUT.iboStartBut:=KVM.gstKVM.stAC.boAC[1];
-INPUT.iboStopBut:=KVM.gstKVM.stAC.boAC[2];
-INPUT.iboAlarmResetBut:=KVM.gstKVM.stAC.boAC[3];
-INPUT.iboSystemResetBut:=KVM.gstKVM.stAC.boAC[4];
-INPUT.iboAutoBut:=KVM.gstKVM.stAC.boAC[5];
-INPUT.iboPauseBut:=KVM.gstKVM.stAC.boAC[6];
-INPUT.iboStepBut:=KVM.gstKVM.stAC.boAC[7];
+// inputs
+INPUT.iboIN0_EmergencyStopBut:=KVM.gstKVM.stAC.boAC[0];			KVM.gstKVM.stAC.sboACComments[0]:='Emergency button';
+INPUT.iboIN1_StartBut:=KVM.gstKVM.stAC.boAC[1];					KVM.gstKVM.stAC.sboACComments[1]:='Start button';
+INPUT.iboIN2_StopBut:=KVM.gstKVM.stAC.boAC[2];					KVM.gstKVM.stAC.sboACComments[2]:='Stop button';
+INPUT.iboIN3_AlarmResetBut:=KVM.gstKVM.stAC.boAC[3];			KVM.gstKVM.stAC.sboACComments[3]:='Alarm reset button';
+INPUT.iboIN4_SystemResetBut:=KVM.gstKVM.stAC.boAC[4];			KVM.gstKVM.stAC.sboACComments[4]:='System reset button';
+INPUT.iboIN5_AutoBut:=KVM.gstKVM.stAC.boAC[5];					KVM.gstKVM.stAC.sboACComments[5]:='Auto / man button';
+INPUT.iboIN6_PauseBut:=KVM.gstKVM.stAC.boAC[6];					KVM.gstKVM.stAC.sboACComments[6]:='Pause button';
+INPUT.iboIN7_StepBut:=KVM.gstKVM.stAC.boAC[7];					KVM.gstKVM.stAC.sboACComments[7]:='Step button';
+                                                        	
+INPUT.iboIN8_ManFwdBut:=KVM.gstKVM.stAC.boAC[8];				KVM.gstKVM.stAC.sboACComments[8]:='Man forward button';
+INPUT.iboIN9_ManBwdBut:=KVM.gstKVM.stAC.boAC[9];				KVM.gstKVM.stAC.sboACComments[9]:='Man backward button';
+(**)                                                    	
+(**)                                                    	
+(**)                                                    	
+(**)                                                    	
+(**)                                                    	
+(**)                                                    	
+                                                        	
+INPUT.iboIN16_Axis1PosLimSw:=KVM.gstKVM.stAC.boAC[16];			KVM.gstKVM.stAC.sboACComments[16]:='Axis 1 of positive limit switch';
+INPUT.iboIN17_Axis1NegLimSw:=KVM.gstKVM.stAC.boAC[17];			KVM.gstKVM.stAC.sboACComments[17]:='Axis 1 of negative limit switch';
+INPUT.iboIN18_Axis2PosLimSw:=KVM.gstKVM.stAC.boAC[18];			KVM.gstKVM.stAC.sboACComments[18]:='Axis 2 of positive limit switch';
+INPUT.iboIN19_Axis2NegLimSw:=KVM.gstKVM.stAC.boAC[19];			KVM.gstKVM.stAC.sboACComments[19]:='Axis 2 of negative limit switch';
+INPUT.iboIN20_Axis3PosLimSw:=KVM.gstKVM.stAC.boAC[20];			KVM.gstKVM.stAC.sboACComments[20]:='Axis 3 of positive limit switch';
+INPUT.iboIN21_Axis3NegLimSw:=KVM.gstKVM.stAC.boAC[21];			KVM.gstKVM.stAC.sboACComments[21]:='Axis 3 of negative limit switch';
+INPUT.iboIN22_Axis4PosLimSw:=KVM.gstKVM.stAC.boAC[22];			KVM.gstKVM.stAC.sboACComments[22]:='Axis 4 of positive limit switch';
+INPUT.iboIN23_Axis4NegLimSw:=KVM.gstKVM.stAC.boAC[23];			KVM.gstKVM.stAC.sboACComments[23]:='Axis 4 of negative limit switch';
 
-INPUT.iboManFwdBut:=KVM.gstKVM.stAC.boAC[8];
-INPUT.iboManBwdBut:=KVM.gstKVM.stAC.boAC[9];
 
-KVM.gstKVM.stAC.sboACComments[0]:='Emergency button';
-KVM.gstKVM.stAC.sboACComments[1]:='Start button';
-KVM.gstKVM.stAC.sboACComments[2]:='Stop button';
-KVM.gstKVM.stAC.sboACComments[3]:='Alarm reset button';
-KVM.gstKVM.stAC.sboACComments[4]:='System reset button';
-KVM.gstKVM.stAC.sboACComments[5]:='Auto / man button';
-KVM.gstKVM.stAC.sboACComments[6]:='Man forward button';
-KVM.gstKVM.stAC.sboACComments[7]:='Man backward button';
 
-KVM.gstKVM.stCA.boCA[0]:=OUTPUT.qboSTO;
-KVM.gstKVM.stCA.boCA[1]:=OUTPUT.qboStartLam;
-KVM.gstKVM.stCA.boCA[2]:=OUTPUT.qboStopLam;
-KVM.gstKVM.stCA.boCA[3]:=OUTPUT.qboAlarmLam;
-KVM.gstKVM.stCA.boCA[4]:=OUTPUT.qboSystemLam;
-KVM.gstKVM.stCA.boCA[5]:=OUTPUT.qboAutoLam;
-KVM.gstKVM.stCA.boCA[6]:=OUTPUT.qboPauseLam;
-KVM.gstKVM.stCA.boCA[7]:=OUTPUT.qboStepLam;
+// outputs
+KVM.gstKVM.stCA.boCA[0]:=OUTPUT.qboOUT0_STO;					KVM.gstKVM.stCA.sboCAComments[0]:='Safe torque off';
+KVM.gstKVM.stCA.boCA[1]:=OUTPUT.qboOUT1_StartLam;				KVM.gstKVM.stCA.sboCAComments[1]:='Lamp of start button';
+KVM.gstKVM.stCA.boCA[2]:=OUTPUT.qboOUT2_StopLam;				KVM.gstKVM.stCA.sboCAComments[2]:='Lamp of stop button';
+KVM.gstKVM.stCA.boCA[3]:=OUTPUT.qboOUT3_AlarmLam;				KVM.gstKVM.stCA.sboCAComments[3]:='Lamp of alarm';
+KVM.gstKVM.stCA.boCA[4]:=OUTPUT.qboOUT4_SystemLam;				KVM.gstKVM.stCA.sboCAComments[4]:='Lamp of safety';
+KVM.gstKVM.stCA.boCA[5]:=OUTPUT.qboOUT5_AutoLam;				KVM.gstKVM.stCA.sboCAComments[5]:='Lamp of auto button';
+KVM.gstKVM.stCA.boCA[6]:=OUTPUT.qboOUT6_PauseLam;				KVM.gstKVM.stCA.sboCAComments[6]:='Lamp of pause button';
+KVM.gstKVM.stCA.boCA[7]:=OUTPUT.qboOUT7_StepLam;				KVM.gstKVM.stCA.sboCAComments[7]:='Lamp of step button';
 
-KVM.gstKVM.stCA.boCA[8]:=OUTPUT.qboManFwdLam;
-KVM.gstKVM.stCA.boCA[9]:=OUTPUT.qboManBwdLam;
+KVM.gstKVM.stCA.boCA[8]:=OUTPUT.qboOUT8_ManFwdLam;				KVM.gstKVM.stCA.sboCAComments[8]:='Lamp of forward button';
+KVM.gstKVM.stCA.boCA[9]:=OUTPUT.qboOUT9_ManBwdLam;				KVM.gstKVM.stCA.sboCAComments[9]:='Lamp of backward button';
+(**)                                                    	
+(**)                                                    	
+(**)  
+KVM.gstKVM.stCA.boCA[13]:=OUTPUT.qboOUT13_TowerLightRedLam;		KVM.gstKVM.stCA.sboCAComments[13]:='Light tower red lamp';
+KVM.gstKVM.stCA.boCA[14]:=OUTPUT.qboOUT14_TowerLightYellowLam;	KVM.gstKVM.stCA.sboCAComments[14]:='Light tower yellow lamp';
+KVM.gstKVM.stCA.boCA[15]:=OUTPUT.qboOUT15_TowerLightGreenLam;	KVM.gstKVM.stCA.sboCAComments[15]:='Light tower green lamp';
 
-KVM.gstKVM.stCA.sboCAComments[0]:='Safe torque off';
-KVM.gstKVM.stCA.sboCAComments[1]:='Lamp of start button';
-KVM.gstKVM.stCA.sboCAComments[2]:='Lamp of stop button';
-KVM.gstKVM.stCA.sboCAComments[3]:='Lamp of alarm';
-KVM.gstKVM.stCA.sboCAComments[4]:='Lamp of safety';
-KVM.gstKVM.stCA.sboCAComments[5]:='Lamp of auto button';
-KVM.gstKVM.stCA.sboCAComments[6]:='Lamp of forward button';
-KVM.gstKVM.stCA.sboCAComments[7]:='Lamp of backward button';
+
+
+
+
+
+
+
+
 ]]></ST>
       </Implementation>
     </Action>
     <Action Name="Safety" Id="{f0e97837-7355-444c-b566-26605a6402c4}">
       <Implementation>
-        <ST><![CDATA[ftriboSystemResetBut(CLK:=INPUT.iboSystemResetBut, Q=>);
-IF INPUT.iboEmergencyStopBut AND ftriboSystemResetBut.Q THEN
-	OUTPUT.qboSTO:=TRUE;
+        <ST><![CDATA[ftriboSystemResetBut(CLK:=INPUT.iboIN4_SystemResetBut, Q=>);
+IF INPUT.iboIN0_EmergencyStopBut AND ftriboSystemResetBut.Q THEN
+	OUTPUT.qboOUT0_STO:=TRUE;
 END_IF
 
-IF NOT INPUT.iboEmergencyStopBut THEN
-	OUTPUT.qboSTO:=FALSE;
+IF NOT INPUT.iboIN0_EmergencyStopBut THEN
+	OUTPUT.qboOUT0_STO:=FALSE;
 END_IF
 
-OUTPUT.qboSystemLam:=OUTPUT.qboSTO OR KVM.gstKVM.stStatus.boLive;]]></ST>
+OUTPUT.qboOUT4_SystemLam:=OUTPUT.qboOUT0_STO OR KVM.gstKVM.stStatus.boLive;]]></ST>
       </Implementation>
     </Action>
     <LineIds Name="FB_KVM">
@@ -133,6 +149,7 @@ OUTPUT.qboSystemLam:=OUTPUT.qboSTO OR KVM.gstKVM.stStatus.boLive;]]></ST>
       <LineId Id="3" Count="0" />
       <LineId Id="46" Count="0" />
       <LineId Id="45" Count="0" />
+      <LineId Id="73" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="4" Count="0" />
       <LineId Id="10" Count="0" />
@@ -142,13 +159,21 @@ OUTPUT.qboSystemLam:=OUTPUT.qboSTO OR KVM.gstKVM.stStatus.boLive;]]></ST>
       <LineId Id="52" Count="0" />
       <LineId Id="51" Count="0" />
       <LineId Id="36" Count="0" />
+      <LineId Id="67" Count="5" />
+      <LineId Id="59" Count="7" />
+      <LineId Id="58" Count="0" />
       <LineId Id="44" Count="0" />
-      <LineId Id="37" Count="6" />
-      <LineId Id="1" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="74" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="18" Count="6" />
       <LineId Id="48" Count="1" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="75" Count="1" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="55" Count="0" />
       <LineId Id="47" Count="0" />
       <LineId Id="28" Count="0" />
       <LineId Id="27" Count="0" />

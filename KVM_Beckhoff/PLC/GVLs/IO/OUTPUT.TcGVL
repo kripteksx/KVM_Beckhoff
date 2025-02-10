@@ -3,18 +3,23 @@
   <GVL Name="OUTPUT" Id="{f31f748c-972d-47c9-94c9-ad0782b3aebf}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
-	qboSTO				: BOOL; // Safe torque off
-	qboStartLam			: BOOL; // Lamp of start button
-	qboStopLam			: BOOL; // Lamp of stop button
-	qboAlarmLam			: BOOL; // Lamp of alarm 
-	qboSystemLam		: BOOL; // Lamp of safety
-	qboAutoLam			: BOOL; // Lamp of auto button
-	qboPauseLam			: BOOL; // Lamp of pause button
-	qboStepLam			: BOOL; // Lamp of step button
+	qboOUT0_STO						: BOOL; // Safe torque off
+	qboOUT1_StartLam				: BOOL; // Lamp of start button
+	qboOUT2_StopLam					: BOOL; // Lamp of stop button
+	qboOUT3_AlarmLam				: BOOL; // Lamp of alarm 
+	qboOUT4_SystemLam				: BOOL; // Lamp of safety
+	qboOUT5_AutoLam					: BOOL; // Lamp of auto button
+	qboOUT6_PauseLam				: BOOL; // Lamp of pause button
+	qboOUT7_StepLam					: BOOL; // Lamp of step button
 	
-	
-	qboManFwdLam		: BOOL; // Lamp of forward button
-	qboManBwdLam		: BOOL; // Lamp of backward button
+	qboOUT8_ManFwdLam				: BOOL; // Lamp of forward button
+	qboOUT9_ManBwdLam				: BOOL; // Lamp of backward button
+	(**)
+	(**)
+	(**)
+	qboOUT13_TowerLightRedLam		: BOOL;
+	qboOUT14_TowerLightYellowLam	: BOOL;
+	qboOUT15_TowerLightGreenLam		: BOOL;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

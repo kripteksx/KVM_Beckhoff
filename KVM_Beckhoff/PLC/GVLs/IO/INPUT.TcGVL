@@ -3,18 +3,32 @@
   <GVL Name="INPUT" Id="{77734734-ce08-4f62-9d38-b4fb9c34b789}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
-	iboEmergencyStopBut	: BOOL; // Emergency button of machine
-	iboStartBut			: BOOL; // Start button of machine
-	iboStopBut			: BOOL; // Stop button of machine
-	iboAlarmResetBut	: BOOL; // Alarm reset button
-	iboSystemResetBut	: BOOL; // System reset button for safety 
-	iboAutoBut			: BOOL; // Auto / Manuel selection button
-	iboPauseBut			: BOOL; // Pause machine for step by step 
-	iboStepBut			: BOOL; // Step by step button
+	iboIN0_EmergencyStopBut			: BOOL; // Emergency button of machine
+	iboIN1_StartBut					: BOOL; // Start button of machine
+	iboIN2_StopBut					: BOOL; // Stop button of machine
+	iboIN3_AlarmResetBut			: BOOL; // Alarm reset button
+	iboIN4_SystemResetBut			: BOOL; // System reset button for safety 
+	iboIN5_AutoBut					: BOOL; // Auto / Manuel selection button
+	iboIN6_PauseBut					: BOOL; // Pause machine for step by step 
+	iboIN7_StepBut					: BOOL; // Step by step button
 	
+	iboIN8_ManFwdBut				: BOOL; // Manuel forward button for selected axis
+	iboIN9_ManBwdBut				: BOOL; // Manuel backward button for selected axis
+	(**)
+	(**)
+	(**)
+	(**)
+	(**)
+	(**)
 	
-	iboManFwdBut		: BOOL; // Manuel forward button for selected axis
-	iboManBwdBut		: BOOL; // Manuel backward button for selected axis
+	iboIN16_Axis1PosLimSw			: BOOL;
+	iboIN17_Axis1NegLimSw			: BOOL;
+	iboIN18_Axis2PosLimSw			: BOOL;
+	iboIN19_Axis2NegLimSw			: BOOL;
+	iboIN20_Axis3PosLimSw			: BOOL;
+	iboIN21_Axis3NegLimSw			: BOOL;
+	iboIN22_Axis4PosLimSw			: BOOL;
+	iboIN23_Axis4NegLimSw			: BOOL;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

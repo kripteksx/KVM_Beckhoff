@@ -27,19 +27,19 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-rtrboStart(CLK:=INPUT.iboStartBut, Q=>);
-ftrboStart(CLK:=INPUT.iboStopBut, Q=>);
+rtrboStart(CLK:=INPUT.iboIN1_StartBut, Q=>);
+ftrboStart(CLK:=INPUT.iboIN2_StopBut, Q=>);
 IF ftrboStart.Q THEN boStartAck:=FALSE; END_IF
-OUTPUT.qboStartLam:=boStartAck OR (boOtomatikAktif AND KVM.gstKVM.stStatus.boLive);
+OUTPUT.qboOUT1_StartLam:=boStartAck OR (boOtomatikAktif AND KVM.gstKVM.stStatus.boLive);
 
-rtrboPause(CLK:=INPUT.iboPauseBut, Q=>);
-rtrboStep(CLK:=INPUT.iboStepBut, Q=>);
+rtrboPause(CLK:=INPUT.iboIN6_PauseBut, Q=>);
+rtrboStep(CLK:=INPUT.iboIN7_StepBut, Q=>);
 IF rtrboPause.Q THEN
 	boPauseAck:=NOT boPauseAck;
 END_IF
-OUTPUT.qboPauseLam:=boPauseAck AND NOT KVM.gstKVM.stStatus.boLive;
-OUTPUT.qboStepLam:=boPauseAck AND KVM.gstKVM.stStatus.boLive;
-OUTPUT.qboAlarmLam:=AXIS.stAxis1.Status.Error AND NOT KVM.gstKVM.stStatus.boLive;
+OUTPUT.qboOUT6_PauseLam:=boPauseAck AND NOT KVM.gstKVM.stStatus.boLive;
+OUTPUT.qboOUT7_StepLam:=boPauseAck AND KVM.gstKVM.stStatus.boLive;
+OUTPUT.qboOUT3_AlarmLam:=AXIS.stAxis1.Status.Error AND NOT KVM.gstKVM.stStatus.boLive;
 
 CASE iState OF
 0:
@@ -137,12 +137,12 @@ fbMcPower(
 	Error=> , 
 	ErrorID=> );
 	
-IF INPUT.iboAutoBut THEN
+IF INPUT.iboIN5_AutoBut THEN
 	fbMoveAbsolute.Velocity:=1500;
 ELSE
 	fbMoveAbsolute.Velocity:=150;
 END_IF
-OUTPUT.qboAutoLam:=(INPUT.iboAutoBut AND KVM.gstKVM.stStatus.boLive) OR boOtomatikAktif;
+OUTPUT.qboOUT5_AutoLam:=(INPUT.iboIN5_AutoBut AND KVM.gstKVM.stStatus.boLive) OR boOtomatikAktif;
 	
 fbMoveAbsolute(
 	Axis:=Axis.stAxis1 , 
@@ -163,18 +163,18 @@ fbMoveAbsolute(
 	
 fbReset(
 	Axis:=Axis.stAxis1 , 
-	Execute:=INPUT.iboAlarmResetBut , 
+	Execute:=INPUT.iboIN3_AlarmResetBut , 
 	Done=> , 
 	Busy=> , 
 	Error=> , 
 	ErrorID=> );
 	
-OUTPUT.qboManFwdLam:=fbJog.JogForward;	
-OUTPUT.qboManBwdLam:=fbJog.JogBackwards;	
+OUTPUT.qboOUT8_ManFwdLam:=fbJog.JogForward;	
+OUTPUT.qboOUT9_ManBwdLam:=fbJog.JogBackwards;	
 fbJog(
 	Axis:=Axis.stAxis1 , 
-	JogForward:=INPUT.iboManFwdBut AND NOT boOtomatikAktif AND NOT INPUT.iboAutoBut , 
-	JogBackwards:=INPUT.iboManBwdBut AND NOT boOtomatikAktif AND NOT INPUT.iboAutoBut , 
+	JogForward:=INPUT.iboIN8_ManFwdBut AND NOT boOtomatikAktif AND NOT INPUT.iboIN5_AutoBut , 
+	JogBackwards:=INPUT.iboIN9_ManBwdBut AND NOT boOtomatikAktif AND NOT INPUT.iboIN5_AutoBut , 
 	Mode:= , 
 	Position:= , 
 	Velocity:=150 , 
