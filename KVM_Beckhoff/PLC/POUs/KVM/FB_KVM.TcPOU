@@ -67,14 +67,14 @@ INPUT.iboIN9_ManBwdBut:=KVM.gstKVM.stAC.boAC[9];				KVM.gstKVM.stAC.sboACComment
 (**)                                                    	
 (**)                                                    	
                                                         	
-INPUT.iboIN16_Axis1PosLimSw:=KVM.gstKVM.stAC.boAC[16];			KVM.gstKVM.stAC.sboACComments[16]:='Axis 1 of positive limit switch';
-INPUT.iboIN17_Axis1NegLimSw:=KVM.gstKVM.stAC.boAC[17];			KVM.gstKVM.stAC.sboACComments[17]:='Axis 1 of negative limit switch';
-INPUT.iboIN18_Axis2PosLimSw:=KVM.gstKVM.stAC.boAC[18];			KVM.gstKVM.stAC.sboACComments[18]:='Axis 2 of positive limit switch';
-INPUT.iboIN19_Axis2NegLimSw:=KVM.gstKVM.stAC.boAC[19];			KVM.gstKVM.stAC.sboACComments[19]:='Axis 2 of negative limit switch';
-INPUT.iboIN20_Axis3PosLimSw:=KVM.gstKVM.stAC.boAC[20];			KVM.gstKVM.stAC.sboACComments[20]:='Axis 3 of positive limit switch';
-INPUT.iboIN21_Axis3NegLimSw:=KVM.gstKVM.stAC.boAC[21];			KVM.gstKVM.stAC.sboACComments[21]:='Axis 3 of negative limit switch';
-INPUT.iboIN22_Axis4PosLimSw:=KVM.gstKVM.stAC.boAC[22];			KVM.gstKVM.stAC.sboACComments[22]:='Axis 4 of positive limit switch';
-INPUT.iboIN23_Axis4NegLimSw:=KVM.gstKVM.stAC.boAC[23];			KVM.gstKVM.stAC.sboACComments[23]:='Axis 4 of negative limit switch';
+INPUT.iboIN16_Axis1PosLimSw:=KVM.gstKVM.stAC.boAC[16];			KVM.gstKVM.stAC.sboACComments[16]:='Axis 1 of pos. limit switch';
+INPUT.iboIN17_Axis1NegLimSw:=KVM.gstKVM.stAC.boAC[17];			KVM.gstKVM.stAC.sboACComments[17]:='Axis 1 of neg. limit switch';
+INPUT.iboIN18_Axis2PosLimSw:=KVM.gstKVM.stAC.boAC[18];			KVM.gstKVM.stAC.sboACComments[18]:='Axis 2 of pos. limit switch';
+INPUT.iboIN19_Axis2NegLimSw:=KVM.gstKVM.stAC.boAC[19];			KVM.gstKVM.stAC.sboACComments[19]:='Axis 2 of neg. limit switch';
+INPUT.iboIN20_Axis3PosLimSw:=KVM.gstKVM.stAC.boAC[20];			KVM.gstKVM.stAC.sboACComments[20]:='Axis 3 of pos. limit switch';
+INPUT.iboIN21_Axis3NegLimSw:=KVM.gstKVM.stAC.boAC[21];			KVM.gstKVM.stAC.sboACComments[21]:='Axis 3 of neg. limit switch';
+INPUT.iboIN22_Axis4PosLimSw:=KVM.gstKVM.stAC.boAC[22];			KVM.gstKVM.stAC.sboACComments[22]:='Axis 4 of pos. limit switch';
+INPUT.iboIN23_Axis4NegLimSw:=KVM.gstKVM.stAC.boAC[23];			KVM.gstKVM.stAC.sboACComments[23]:='Axis 4 of neg. limit switch';
 
 
 

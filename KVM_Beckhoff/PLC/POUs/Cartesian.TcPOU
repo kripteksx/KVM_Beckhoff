@@ -12,8 +12,12 @@ END_VAR
 VAR
 	rtrboStart: R_TRIG;
 	iState: INT;
-	fbMoveAbsolute: MC_MoveAbsolute;
-	fbMcPower: MC_Power;
+	fbAxisX: MC_MoveAbsolute;
+	fbAxisY: MC_MoveAbsolute;
+	fbAxisZ: MC_MoveAbsolute;
+	fbAxisXPower: MC_Power;
+	fbAxisYPower: MC_Power;
+	fbAxisZPower: MC_Power;
 	fbTonGec: TON;
 	ftrboEnable: F_TRIG;
 	ftrboStart: F_TRIG;
@@ -21,7 +25,9 @@ VAR
 	rtrboPause: R_TRIG;
 	boPauseAck: BOOL;
 	rtrboStep: R_TRIG;
-	fbReset: MC_Reset;
+	fbAxisXReset: MC_Reset;
+	fbAxisYReset: MC_Reset;
+	fbAxisZReset: MC_Reset;
 	fbJog: MC_Jog;
 END_VAR
 ]]></Declaration>
@@ -68,16 +74,42 @@ CASE iState OF
 	
 1010:
 	IF NOT boPauseAck OR rtrboStep.Q THEN
-		fbMoveAbsolute.Position:=690;
-		fbMoveAbsolute.Execute:=TRUE;
+		fbAxisX.Position:=690;
+		fbAxisX.Execute:=TRUE;
 		iState:=1011;
 	END_IF
 	
 1011:
-	IF fbMoveAbsolute.Done THEN
-		fbMoveAbsolute.Execute:=FALSE;
-		iState:=1020;
+	IF fbAxisX.Done THEN
+		fbAxisX.Execute:=FALSE;
+		iState:=1012;
 	END_IF
+	
+1012:
+	IF NOT boPauseAck OR rtrboStep.Q THEN
+		fbAxisY.Position:=600;
+		fbAxisY.Execute:=TRUE;
+		iState:=1013;
+	END_IF
+	
+1013:
+	IF fbAxisY.Done THEN
+		fbAxisY.Execute:=FALSE;
+		iState:=1014;
+	END_IF
+
+1014:
+	IF NOT boPauseAck OR rtrboStep.Q THEN
+		fbAxisZ.Position:=250;
+		fbAxisZ.Execute:=TRUE;
+		iState:=1015;
+	END_IF
+	
+1015:
+	IF fbAxisZ.Done THEN
+		fbAxisZ.Execute:=FALSE;
+		iState:=1020;
+	END_IF	
 	
 1020:
 	fbTonGec.IN:=TRUE;
@@ -88,14 +120,40 @@ CASE iState OF
 	
 1030:
 	IF NOT boPauseAck OR rtrboStep.Q THEN
-		fbMoveAbsolute.Position:=65;
-		fbMoveAbsolute.Execute:=TRUE;
+		fbAxisZ.Position:=0;
+		fbAxisZ.Execute:=TRUE;
 		iState:=1031;
 	END_IF
 	
 1031:
-	IF fbMoveAbsolute.Done THEN
-		fbMoveAbsolute.Execute:=FALSE;
+	IF fbAxisZ.Done THEN
+		fbAxisZ.Execute:=FALSE;
+		iState:=1032;
+	END_IF	
+
+1032:
+	IF NOT boPauseAck OR rtrboStep.Q THEN
+		fbAxisY.Position:=100;
+		fbAxisY.Execute:=TRUE;
+		iState:=1033;
+	END_IF
+	
+1033:
+	IF fbAxisY.Done THEN
+		fbAxisY.Execute:=FALSE;
+		iState:=1034;
+	END_IF	
+	
+1034:	
+	IF NOT boPauseAck OR rtrboStep.Q THEN
+		fbAxisX.Position:=65;
+		fbAxisX.Execute:=TRUE;
+		iState:=1035;
+	END_IF
+	
+1035:
+	IF fbAxisX.Done THEN
+		fbAxisX.Execute:=FALSE;
 		iState:=1040;
 	END_IF
 	
@@ -114,7 +172,7 @@ IF ftrboEnable.Q THEN
 	boStartAck:=FALSE;
 	boOtomatikAktif:=FALSE;
 	fbTonGec.IN:=FALSE;
-	fbMoveAbsolute.Execute:=FALSE;
+	fbAxisX.Execute:=FALSE;
 END_IF
 
 
@@ -123,51 +181,63 @@ Axis.stAxis1.ReadStatus();
 
 fbTonGec(IN:= , PT:=T#1S , Q=> , ET=> );
 
-fbMcPower(
+fbAxisXPower(
 	Axis:=Axis.stAxis1 , 
 	Enable:=boEnable , 
 	Enable_Positive:=boEnable , 
 	Enable_Negative:=boEnable , 
-	Override:= , 
-	BufferMode:= , 
-	Options:= , 
-	Status=> , 
-	Busy=> , 
-	Active=> , 
-	Error=> , 
-	ErrorID=> );
+	Override:=100 );
+fbAxisYPower(
+	Axis:=Axis.stAxis2 , 
+	Enable:=boEnable , 
+	Enable_Positive:=boEnable , 
+	Enable_Negative:=boEnable , 
+	Override:=100 );
+fbAxisZPower(
+	Axis:=Axis.stAxis3 , 
+	Enable:=boEnable , 
+	Enable_Positive:=boEnable , 
+	Enable_Negative:=boEnable , 
+	Override:=100 );
 	
 IF INPUT.iboIN5_AutoBut THEN
-	fbMoveAbsolute.Velocity:=1500;
+	fbAxisX.Velocity:=1500;
+	fbAxisY.Velocity:=1500;
+	fbAxisZ.Velocity:=1500;
 ELSE
-	fbMoveAbsolute.Velocity:=150;
+	fbAxisX.Velocity:=150;
+	fbAxisY.Velocity:=150;
+	fbAxisZ.Velocity:=150;
 END_IF
 OUTPUT.qboOUT5_AutoLam:=(INPUT.iboIN5_AutoBut AND KVM.gstKVM.stStatus.boLive) OR boOtomatikAktif;
 	
-fbMoveAbsolute(
+fbAxisX(
 	Axis:=Axis.stAxis1 , 
-	Execute:= , 
-	Position:= , 
-	Velocity:= , 
 	Acceleration:=10000 , 
 	Deceleration:=10000 , 
-	Jerk:=100000 , 
-	BufferMode:= , 
-	Options:= , 
-	Done=> , 
-	Busy=> , 
-	Active=> , 
-	CommandAborted=> , 
-	Error=> , 
-	ErrorID=> );
+	Jerk:=100000 , );
+fbAxisY(
+	Axis:=Axis.stAxis2 , 
+	Acceleration:=10000 , 
+	Deceleration:=10000 , 
+	Jerk:=100000 , );
+fbAxisZ(
+	Axis:=Axis.stAxis3 , 
+	Acceleration:=10000 , 
+	Deceleration:=10000 , 
+	Jerk:=100000 , );
 	
-fbReset(
+fbAxisXReset(
 	Axis:=Axis.stAxis1 , 
-	Execute:=INPUT.iboIN3_AlarmResetBut , 
-	Done=> , 
-	Busy=> , 
-	Error=> , 
-	ErrorID=> );
+	Execute:=INPUT.iboIN3_AlarmResetBut  );
+	
+fbAxisYReset(
+	Axis:=Axis.stAxis2 , 
+	Execute:=INPUT.iboIN3_AlarmResetBut  );
+	
+fbAxisZReset(
+	Axis:=Axis.stAxis3 , 
+	Execute:=INPUT.iboIN3_AlarmResetBut  );
 	
 OUTPUT.qboOUT8_ManFwdLam:=fbJog.JogForward;	
 OUTPUT.qboOUT9_ManBwdLam:=fbJog.JogBackwards;	
@@ -223,8 +293,18 @@ fbJog(
       <LineId Id="186" Count="2" />
       <LineId Id="159" Count="3" />
       <LineId Id="37" Count="0" />
+      <LineId Id="292" Count="0" />
+      <LineId Id="294" Count="10" />
+      <LineId Id="293" Count="0" />
+      <LineId Id="307" Count="11" />
+      <LineId Id="305" Count="0" />
       <LineId Id="163" Count="1" />
-      <LineId Id="38" Count="6" />
+      <LineId Id="38" Count="5" />
+      <LineId Id="319" Count="10" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="331" Count="11" />
+      <LineId Id="330" Count="0" />
+      <LineId Id="343" Count="1" />
       <LineId Id="192" Count="0" />
       <LineId Id="45" Count="1" />
       <LineId Id="196" Count="0" />
@@ -239,16 +319,24 @@ fbJog(
       <LineId Id="125" Count="0" />
       <LineId Id="119" Count="1" />
       <LineId Id="118" Count="0" />
-      <LineId Id="60" Count="16" />
+      <LineId Id="60" Count="8" />
+      <LineId Id="270" Count="11" />
+      <LineId Id="76" Count="0" />
       <LineId Id="197" Count="1" />
       <LineId Id="201" Count="0" />
+      <LineId Id="345" Count="1" />
       <LineId Id="199" Count="0" />
       <LineId Id="202" Count="0" />
+      <LineId Id="347" Count="1" />
       <LineId Id="200" Count="0" />
       <LineId Id="203" Count="0" />
-      <LineId Id="77" Count="16" />
+      <LineId Id="77" Count="1" />
+      <LineId Id="82" Count="2" />
+      <LineId Id="258" Count="9" />
+      <LineId Id="93" Count="0" />
       <LineId Id="214" Count="0" />
-      <LineId Id="208" Count="5" />
+      <LineId Id="208" Count="1" />
+      <LineId Id="284" Count="7" />
       <LineId Id="205" Count="1" />
       <LineId Id="231" Count="1" />
       <LineId Id="216" Count="14" />

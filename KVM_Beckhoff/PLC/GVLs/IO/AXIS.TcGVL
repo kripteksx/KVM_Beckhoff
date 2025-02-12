@@ -6,6 +6,7 @@ VAR_GLOBAL
 	stAxis1 : AXIS_REF;
 	stAxis2 : AXIS_REF;
 	stAxis3 : AXIS_REF;
+	stAxis4 : AXIS_REF;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
