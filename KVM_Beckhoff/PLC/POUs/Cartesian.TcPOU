@@ -173,6 +173,8 @@ IF ftrboEnable.Q THEN
 	boOtomatikAktif:=FALSE;
 	fbTonGec.IN:=FALSE;
 	fbAxisX.Execute:=FALSE;
+	fbAxisY.Execute:=FALSE;
+	fbAxisZ.Execute:=FALSE;
 END_IF
 
 
@@ -316,6 +318,7 @@ fbJog(
       <LineId Id="130" Count="0" />
       <LineId Id="172" Count="0" />
       <LineId Id="128" Count="1" />
+      <LineId Id="378" Count="1" />
       <LineId Id="125" Count="0" />
       <LineId Id="119" Count="1" />
       <LineId Id="118" Count="0" />

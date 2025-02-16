@@ -32,9 +32,9 @@ General();]]></ST>
 KVM.gstKVM.stApp.sInfo:='Pick $R$Nand place';
 
 
-KVM.gstKVM.stCA.lrCA[0]:=Axis.stAxis1.NcToPlc.ActPos;
-KVM.gstKVM.stCA.lrCA[1]:=Axis.stAxis2.NcToPlc.ActPos;
-KVM.gstKVM.stCA.lrCA[2]:=Axis.stAxis3.NcToPlc.ActPos;]]></ST>
+KVM.gstKVM.stCA.lrCA[0]:=DINT_TO_LREAL(LREAL_TO_DINT(Axis.stAxis1.NcToPlc.ActPos*100))/100;
+KVM.gstKVM.stCA.lrCA[1]:=DINT_TO_LREAL(LREAL_TO_DINT(Axis.stAxis2.NcToPlc.ActPos*100))/100;
+KVM.gstKVM.stCA.lrCA[2]:=DINT_TO_LREAL(LREAL_TO_DINT(Axis.stAxis3.NcToPlc.ActPos*100))/100;]]></ST>
       </Implementation>
     </Action>
     <Action Name="App2" Id="{07759514-4541-4148-8fc8-41dbe14d4891}">
