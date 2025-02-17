@@ -45,7 +45,7 @@ IF rtrboPause.Q THEN
 END_IF
 OUTPUT.qboOUT6_PauseLam:=boPauseAck AND NOT KVM.gstKVM.stStatus.boLive;
 OUTPUT.qboOUT7_StepLam:=boPauseAck AND KVM.gstKVM.stStatus.boLive;
-OUTPUT.qboOUT3_AlarmLam:=AXIS.stAxis1.Status.Error AND NOT KVM.gstKVM.stStatus.boLive;
+OUTPUT.qboOUT3_AlarmLam:=(AXIS.stAxis1.Status.Error OR AXIS.stAxis2.Status.Error OR AXIS.stAxis3.Status.Error) AND NOT KVM.gstKVM.stStatus.boLive;
 
 CASE iState OF
 0:
